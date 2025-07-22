@@ -33,3 +33,17 @@ body{
     padding: 20px;
     border-radius: 40px;
 }
+
+@media (max-width: 768px) {
+    .hero h1{font-size:40px;}
+@media (max-width: 768px) {
+    .body h1{background-color: cornsilk;}
+}
+.hero-text{
+    display:flex;
+    flex-direction: column;
+}
+
+.hero img{
+    boarder-radius
+}
