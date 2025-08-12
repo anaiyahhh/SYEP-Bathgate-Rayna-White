@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat with Rayna Bot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    #chatBox {
+      display: none;
+      width: 300px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #f0f0f0;
+      border-radius: 10px;
+      animation: zoomIn 0.5s ease forwards;
+    }
+
+    @keyframes zoomIn {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    button {
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      border-radius: 10px;
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #raynaResponse {
+      margin-top: 15px;
+      font-size: 1rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <button onclick="openChat()">Chat with Rayna Bot</button>
+
+  <div id="chatBox">
+    <p id="raynaResponse">👋 Hi! I'm Rayna. Let's chat.</p>
+  </div>
+
+  <script>
+    function openChat() {
+      const chat = document.getElementById("chatBox");
+      chat.style.display = "block";
+
+      const greeting = "Hey there! What's on your mind today?";
+      document.getElementById("raynaResponse").textContent = greeting;
+
+      const utterance = new SpeechSynthesisUtterance(greeting);
+      speechSynthesis.speak(utterance);
+
+      startVoiceChat();
+    }
+
+    function startVoiceChat() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Speech recognition not supported in this browser.");
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const userInput = event.results[0][0].transcript;
+        respondToUser(userInput);
+      };
+
+      recognition.onerror = function(event) {
+        console.error("Speech recognition error:", event.error);
+      };
+    }
+
+    function respondToUser(input) {
+      const responseText = "You said: " + input;
+      document.getElementById("raynaResponse").textContent = responseText;
+
+      const utterance = new SpeechSynthesisUtterance("Rayna says: " + input);
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+
+</body>
+</html>
